@@ -1,0 +1,88 @@
+package ${package}.controller;
+
+import com.baomidou.mybatisplus.plugins.Page;
+import com.contest.util.IdWorker;
+import com.contest.util.PageUtils;
+import com.contest.util.R;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import ${package}.entity.${className};
+import ${package}.service.${className}Service;
+
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+
+@Controller
+@RequestMapping("/${classname}")
+public class ${className}Controller {
+
+    @Autowired
+    ${className}Service ${classname}Service;
+    @Autowired
+    IdWorker idWorker;
+
+    @RequestMapping("/list")
+    @ResponseBody
+    public PageUtils list(@RequestParam Map<String,Object> param) {
+        int page = Integer.parseInt(param.get("page").toString());
+        int rows = Integer.parseInt(param.get("rows").toString());
+        Page<${className}> mPage = new Page<${className}>((page - 1) * rows, rows);
+        mPage = ${classname}Service.selectPage(mPage);
+        return new PageUtils(mPage.getRecords(),mPage.getTotal());
+    }
+
+    @PostMapping("/save")
+    @ResponseBody
+    public R save(${className} ${classname}) {
+        ${classname}.setFdId(idWorker.nextId() + "");
+        if (${classname}Service.insert(${classname})) {
+            return R.ok("操作成功!");
+        } else {
+            return R.error("操作失败");
+        }
+    }
+
+    @GetMapping("/edit/{${pk.attrname}}")
+    public String edit(Model model, @PathVariable("${pk.attrname}") String ${pk.attrname}) {
+        ${className} ${classname} = ${classname}Service.selectById(${pk.attrname});
+        model.addAttribute("${classname}", ${classname});
+        return "${classname}/edit";
+    }
+
+    @PostMapping("/remove")
+    @ResponseBody
+    public R remove(@RequestParam("ids[]") String[] ids) {
+        List<String> fdIds = new ArrayList<String>();
+        for (String id : ids) {
+            fdIds.add(id);
+        }
+        if (${classname}Service.deleteBatchIds(fdIds)) {
+            return R.ok("删除成功");
+        } else {
+            return R.error(-1, "删除失败!");
+        }
+    }
+
+    @PostMapping("/update")
+    @ResponseBody
+    public R update(${className} ${classname}) {
+        if (${classname}Service.updateById(${classname})) {
+            return R.ok("更新成功!");
+        } else {
+            return R.error(-1, "更新失败!");
+        }
+    }
+
+}

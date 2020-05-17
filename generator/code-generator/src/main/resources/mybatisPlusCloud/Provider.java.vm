@@ -1,0 +1,91 @@
+package ${package}.api;
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import ${package}.api.${className}Api;
+import ${package}.entity.${className};
+import ${package}.service.${className}Service;
+import ${package}.util.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Collection;
+import java.util.Map;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+
+@RestController
+public class ${className}Provider implements ${className}Api {
+
+    @Autowired
+    private ${className}Service ${classname}Service;
+
+
+    @Override
+    public ResultInfo getPage(@RequestParam Map<String, String> map) {
+        IPage page = null;
+        try {
+            page = PageUtil.page(${classname}Service, map, ${className}. class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return R.success(page);
+    }
+
+    /**
+    * 编辑
+    */
+    @Override
+    public ResultInfo edit(@RequestBody ${className} ${classname}) {
+        boolean updateById = ${classname}Service.updateById(${classname});
+        if (updateById) {
+            return ResultUtil.success();
+        }
+        return ResultUtil.fail();
+    }
+
+    /**
+    * 保存修改
+    */
+    @Override
+    public ResultInfo saveOrUpdate(@RequestBody ${className} ${classname}) {
+        boolean saveOrUpdate = ${classname}Service.saveOrUpdate(${classname});
+        if (saveOrUpdate) {
+            return ResultUtil.success();
+        }
+        return ResultUtil.fail();
+    }
+
+    /**
+     * 删除
+     */
+    @Override
+    public ResultInfo removeById(@RequestBody String id) {
+        boolean removeById = ${classname}Service.removeById(id);
+        if (removeById) {
+            return ResultUtil.success();
+        }
+        return ResultUtil.fail();
+    }
+
+    /**
+     * 批量删除
+     */
+    @Override
+    public ResultInfo removeByIds(@RequestBody Collection<String> ids) {
+        boolean removeByIds = ${classname}Service.removeByIds(ids);
+        if (removeByIds) {
+            return ResultUtil.success();
+        }
+        return ResultUtil.fail();
+    }
+}

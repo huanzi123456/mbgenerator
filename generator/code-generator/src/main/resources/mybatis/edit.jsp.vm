@@ -1,0 +1,84 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<jsp:include page="/include/pageTitleBread.jsp"/>
+<div id="page-content">
+    <div class="col-lg-12">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">${pageInfo.innerTitle}</h3>
+            </div>
+            <form id="${classname}Form" class="panel-body form-horizontal form-padding">
+
+
+						<input id="${pk.attrname}" name="${pk.attrname}" value="${${classname}.${pk.attrname}}"  type="hidden">
+#foreach($column in $columns)
+    #if($column.columnName != $pk.columnName)
+<div class="form-group">
+								<label class="col-sm-3 control-label">${column.comments}：</label>
+								<div class="col-sm-8">
+									<input id="${column.attrname}" name="${column.attrname}" value="${${classname}.${column.attrname}}" class="form-control" type="text">
+									<small class="help-block">请输入XXXX</small>
+								</div>
+							</div>
+							#end
+#end
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-9 col-sm-offset-3">
+                            <button class="btn btn-warning" type="reset">重置</button>
+                            <button class="btn btn-mint" type="submit">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+
+    function save() {
+        var data = common_ajax.ajaxFunc(ctx +"/${classname}/saveOrUpdate", $('#${classname}Form').serialize(), "json", null);
+        if (data.code === 0) {
+            pointLion.alertMsg(data.msg, "success", "small", function () {
+                doPjax(ctx + '/${classname}');//跳转到列表页
+            });
+        } else {
+            pointLion.alertMsg(data.msg, "danger", "small", function () {
+                doPjax(ctx + '/${classname}');//跳转到列表页
+            });
+        }
+    }
+
+    $(document).ready(function () {
+        $('#${classname}Form').bootstrapValidator({
+            excluded: [":hidden"],//关键配置，表示只对于隐藏域不进行验证，其他的表单元素都要验证
+            fields: {
+                "flCode": {
+                    validators: {
+                        notEmpty: {
+                            message: '*XXXX不能为空!'
+                        },
+                        stringLength: {
+                            min: 2,
+                            message: '*XXXX必须大于两位'
+                        }
+                    }
+                },
+                "flName": {
+                    validators: {
+                        notEmpty: {
+                            message: '*XXXX不能为空'
+                        },
+                        stringLength: {
+                            min: 2,
+                            message: '*XXXX必须大于两位'
+                        }
+                    }
+                }
+            }
+        }).on("success.form.bv", function (e) {
+            save();
+            return false;//阻止表单跳转
+        });
+    });
+</script>

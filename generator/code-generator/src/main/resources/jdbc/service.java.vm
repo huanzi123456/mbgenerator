@@ -1,0 +1,31 @@
+package com.common.service;
+
+import com.alibaba.fastjson.JSONObject;
+import com.common.util.Tree;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @Auther: EDZ
+ * @Date: 2018-5-18 11:53:11
+ * @Email: 你的邮箱
+ * 概要说明：该接口干嘛用的
+ **/
+public interface ${className}Service {
+
+    List<JSONObject> listData(Map<String, Object> param);
+
+    int getCount(Map<String, Object> param);
+
+    JSONObject getById(String fl_id);
+
+    int save(Map<String, Object> ${classname}Map);
+
+    int update(Map<String, Object> ${classname}Map);
+
+    int batchDelByIds(String[] ids);
+
+    List<JSONObject> getAll(Map<String,Object> param);
+
+}

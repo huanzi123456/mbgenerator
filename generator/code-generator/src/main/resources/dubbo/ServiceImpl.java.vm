@@ -1,0 +1,55 @@
+package ${package}.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import com.alibaba.dubbo.config.annotation.Service;
+
+import java.util.List;
+import java.util.Map;
+
+import ${package}.dao.${className}Dao;
+import ${package}.entity.${className};
+import ${package}.service.${className}Service;
+
+
+
+@Service(version = "1.0",retries = 0)
+public class ${className}ServiceImpl implements ${className}Service {
+	@Autowired
+	private ${className}Dao ${classname}Dao;
+	
+	@Override
+	public ${className} get(${pk.attrType} ${pk.attrname}){
+		return ${classname}Dao.get(${pk.attrname});
+	}
+	
+	@Override
+	public List<${className}> list(Map<String, Object> map){
+		return ${classname}Dao.list(map);
+	}
+	
+	@Override
+	public int count(Map<String, Object> map){
+		return ${classname}Dao.count(map);
+	}
+	
+	@Override
+	public int save(${className} ${classname}){
+		return ${classname}Dao.save(${classname});
+	}
+	
+	@Override
+	public int update(${className} ${classname}){
+		return ${classname}Dao.update(${classname});
+	}
+	
+	@Override
+	public int remove(${pk.attrType} ${pk.attrname}){
+		return ${classname}Dao.remove(${pk.attrname});
+	}
+	
+	@Override
+	public int batchRemove(${pk.attrType}[] ${pk.attrname}s){
+		return ${classname}Dao.batchRemove(${pk.attrname}s);
+	}
+	
+}

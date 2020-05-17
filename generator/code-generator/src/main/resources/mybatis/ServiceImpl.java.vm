@@ -1,0 +1,59 @@
+package ${package}.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import cn.hutool.core.date.DateUtil;
+
+import java.util.List;
+import java.util.Map;
+
+import ${package}.mapper.${className}Mapper;
+import ${package}.entity.${className};
+import ${package}.service.${className}Service;
+import ${package}.util.IdWorker;
+
+@Service
+public class ${className}ServiceImpl implements ${className}Service {
+    @Autowired
+    private ${className}Mapper ${classname}Mapper;
+    @Autowired
+    private IdWorker idWorker;
+
+    @Override
+    public ${className} getById(${pk.attrType} ${pk.attrname}) {
+        return ${classname}Mapper.queryById(${pk.attrname});
+    }
+
+    @Override
+    public List<${className}> getList(Map<String, Object> map) {
+        return ${classname}Mapper.queryList(map);
+    }
+
+    @Override
+    public int getCount(Map<String, Object> map) {
+        return ${classname}Mapper.queryCount(map);
+    }
+
+    @Override
+    public int save(${className} ${classname}) {
+        ${classname}.setDdlId(String.valueOf(idWorker.nextId()));
+        ${classname}.setDdlCreatedTime(DateUtil.now());
+        return ${classname}Mapper.save(${classname});
+    }
+
+    @Override
+    public int updateById(${className} ${classname}) {
+        return ${classname}Mapper.updateById(${classname});
+    }
+
+    @Override
+    public int remove(${pk.attrType} ${pk.attrname}) {
+        return ${classname}Mapper.remove(${pk.attrname});
+    }
+
+    @Override
+    public int batchRemove(${pk.attrType}[]${pk.attrname}s) {
+        return ${classname}Mapper.batchRemove(${pk.attrname}s);
+    }
+
+}

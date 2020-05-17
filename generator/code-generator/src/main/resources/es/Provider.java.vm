@@ -1,0 +1,89 @@
+package ${package}.provider;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import ${package}.api.${className}Api;
+import ${package}.entity.${className};
+import ${package}.service.${className}Service;
+import ${package}.util.*;
+import ${package}.model.ResultInfo;
+
+import java.util.*;
+
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+
+@RestController
+public class ${className}Provider implements ${className}Api{
+
+    @Autowired
+    private ${className}Service ${classname}Service;
+
+
+    @Override
+    public ResultInfo getList(${className} vo,String token){
+        PageInfo<CustomPrint> pageInfo = ${classname}Service.getList(token, vo);
+        ResultInfo resultMap = new ResultInfo();
+        resultMap.setList(pageInfo.getList())
+                .setPageIndex(vo.getPageIndex())
+                .setPageSize(vo.getPageSize())
+                .setTotalCount(pageInfo.getTotalCount())
+                .setTotalPages(pageInfo.getTotalPages());
+        return ResultInfo.success(resultMap);
+    }
+
+    /**
+    * 编辑
+    */
+    @Override
+    public ResultInfo edit(@RequestBody ${className} ${classname}){
+        boolean updateById=${classname}Service.updateById(${classname});
+        if(updateById){
+            return R.ok();
+        }
+        return R.error();
+    }
+
+    /**
+    * 保存修改
+    */
+    @Override
+    public ResultInfo saveOrUpdate(@RequestBody ${className} ${classname}){
+        boolean saveOrUpdate=${classname}Service.saveOrUpdate(${classname});
+        if(saveOrUpdate){
+            return R.ok();
+        }
+        return R.error();
+    }
+
+    /**
+     * 删除
+     */
+    @Override
+    public ResultInfo removeById(@RequestBody String id){
+        boolean removeById=${classname}Service.removeById(id);
+        if(removeById){
+            return R.ok();
+        }
+        return R.error();
+    }
+
+    /**
+     * 批量删除
+     */
+    @Override
+    public ResultInfo removeByIds(@RequestBody Collection<String> ids){
+        boolean removeByIds=${classname}Service.removeByIds(ids);
+        if(removeByIds){
+            return R.ok();
+        }
+        return R.error();
+    }
+}

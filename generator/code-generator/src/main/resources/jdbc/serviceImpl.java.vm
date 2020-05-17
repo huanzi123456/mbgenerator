@@ -1,0 +1,73 @@
+package com.common.service.impl;
+
+import cn.hutool.core.date.DateUtil;
+import com.alibaba.fastjson.JSONObject;
+import com.common.util.BuildTree;
+import com.common.util.IdWorker;
+import com.common.util.Tree;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import ${package}.dao.${className}Dao;
+import ${package}.service.${className}Service;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @Auther: EDZ
+ * @Date: 2018-5-18 11:55:11
+ * @Email: 你的邮箱
+ * 概要说明：该类干嘛用的
+ **/
+@Service
+public class ${className}ServiceImpl implements ${className}Service {
+
+    @Autowired
+    ${className}Dao ${classname}Dao;
+    @Autowired
+    IdWorker idWorker;
+
+
+    @Override
+    public List<JSONObject> listData(Map<String, Object> param) {
+        return ${classname}Dao.queryListData(param)};
+    }
+
+    @Override
+    public int getCount(Map<String, Object> param) {
+        return ${classname}Dao.queryCount(param);
+    }
+
+    @Override
+    public JSONObject getById(String fl_id) {
+        return ${classname}Dao.queryById(fl_id);
+    }
+
+    @Override
+    public int save(Map<String, Object> ${classname}Map) {
+        JSONObject ${classname} = JSONObject.parseObject(JSONObject.toJSONString(${classname}Map));
+        ${classname}.put("fl_id",idWorker.nextId());
+        return ${classname}Dao.insert(${classname});
+    }
+
+    @Override
+    public int update(Map<String, Object> ${classname}Map) {
+        JSONObject ${classname} = JSONObject.parseObject(JSONObject.toJSONString(${classname}Map));
+        ${classname}.put("fl_updated_time", DateUtil.now());
+        return ${classname}Dao.updateById(${classname});
+    }
+
+    @Override
+    public int batchDelByIds(String[] ids) {
+        return ${classname}Dao.batchDelByIds(ids);
+    }
+
+    @Override
+    public List<JSONObject> getAll(Map<String,Object> param) {
+        return ${classname}Dao.queryList(param);
+    }
+
+
+
+}

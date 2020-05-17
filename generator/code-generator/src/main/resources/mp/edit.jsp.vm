@@ -1,0 +1,40 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>王者荣耀竞猜管理平台</title>
+    <link rel="stylesheet" type="text/css"
+          href="${pageContext.request.contextPath}/static/jquery-easyui-1.5.3/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css"
+          href="${pageContext.request.contextPath}/static/jquery-easyui-1.5.3/themes/icon.css">
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/jquery-easyui-1.5.3/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+     <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+</head>
+<body>
+<div align="center">
+    <form id="ff" method="post" action="/${classname}/update">
+        <input type="hidden" name="${pk.attrname}" value="${${classname}.${pk.attrname}}">
+        <table cellpadding="5">
+        #foreach($column in $columns)
+            <tr>
+                <td>${column.comments}：</td>
+                <td><input class="easyui-textbox" type="text" id="${column.attrname}" name="${column.attrname}" value="${${classname}.${column.attrname}}"
+                           data-options="required:true"/></td>
+            </tr>
+            #end
+        </table>
+    </form>
+    <div style="text-align:center;padding:5px">
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">提交</a>
+        <a href="javascript:void(0)" style="margin-left: 20px" class="easyui-linkbutton" onclick="clearForm()">重置</a>
+    </div>
+</div>
+</body>
+<script src="${pageContext.request.contextPath}/static/admin/${classname}/edit.js"></script>
+</html>

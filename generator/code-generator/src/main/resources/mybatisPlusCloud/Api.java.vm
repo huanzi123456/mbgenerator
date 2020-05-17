@@ -1,0 +1,57 @@
+package ${package}.api;
+
+import org.springframework.web.bind.annotation.*;
+
+import ${package}.entity.${className};
+import ${package}.entity.ResultInfo;
+import ${package}.util.*;
+
+import java.util.Collection;
+import java.util.Map;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+
+@RequestMapping("/api/${classname}")
+public interface ${className}Api {
+
+    /**
+    * 分页获取
+    */
+    @ResponseBody
+    @GetMapping("/get/page")
+    ResultInfo getPage(@RequestParam Map<String, String> map);
+
+    /**
+    * 编辑
+    */
+    @ResponseBody
+    @PostMapping("/edit/id")
+    ResultInfo edit(@RequestBody ${className} ${classname});
+
+    /**
+    * 保存修改
+    */
+    @ResponseBody
+    @PostMapping("/saveOrUpdate")
+    ResultInfo saveOrUpdate(${className} ${classname});
+
+    /**
+    * 删除
+    */
+    @ResponseBody
+    @PostMapping("/remove/id")
+    ResultInfo removeById(@RequestBody String id);
+
+    /**
+     * 批量删除
+     */
+    @ResponseBody
+    @PostMapping("/remove/ids")
+    ResultInfo removeByIds(@RequestBody Collection<String> ids);
+}

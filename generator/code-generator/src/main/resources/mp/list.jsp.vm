@@ -1,0 +1,33 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>王者荣耀竞猜管理平台</title>
+    <link rel="stylesheet" type="text/css"
+          href="${pageContext.request.contextPath}/static/jquery-easyui-1.5.3/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css"
+          href="${pageContext.request.contextPath}/static/jquery-easyui-1.5.3/themes/icon.css">
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/jquery-easyui-1.5.3/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+</head>
+<body>
+<div id="tb">
+    <a href="javascript:add()" class="easyui-linkbutton" style="margin-left: 30px" data-options="iconCls:'icon-add'">添加</a>
+    <a href="javascript:edit()" class="easyui-linkbutton" style="margin-left: 10px" data-options="iconCls:'icon-edit'">编辑</a>
+    <a href="javascript:remove()" class="easyui-linkbutton" style="margin-left: 10px" data-options="iconCls:'icon-remove'">删除</a>
+    <span style="margin-left: 50%">
+        <span style="font-size: 16px">姓名:</span><input class="easyui-textbox" style="width:150px;height:25px">
+        <a href="javascript:reLoad()" class="easyui-linkbutton" data-options="iconCls:'icon-search'" style="margin-left:10px; width:70px;height: 25px">搜索</a>
+    </span>
+</div>
+<table id="dg"></table>
+<div id="win"></div>
+</body>
+<script src="${pageContext.request.contextPath}/static/admin/${classname}/${classname}.js"></script>
+</html>

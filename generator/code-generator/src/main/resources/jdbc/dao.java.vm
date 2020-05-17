@@ -1,0 +1,110 @@
+package ${package}.dao;
+
+import com.alibaba.fastjson.JSONObject;
+import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Repository
+public class ${className}Dao extends BaseDao {
+    private final static String TABLE_NAME = "${tableName}";
+
+    /**
+     * 方法名称：查询单个对象
+     * 概要说明：根据ID查询单个对象
+     * @Ather EDZ
+     * @Date 2018-5-28 9:34
+     * @Param [id]
+     * @Return JSONObject
+     */
+    public JSONObject queryById(String id) {
+        String sql = "select #foreach($column in $columns)`$column.columnName`#if($velocityCount != $columns.size()),#end#end from " + TABLE_NAME + " where fl_id = ?";
+        return this.queryForJsonObject(sql, id);
+    }
+
+    /**
+     * 方法名称：根据条件查询页面所需数据
+     * 概要说明：根据条件查询页面所需数据(带分页)
+     * @Ather EDZ
+     * @Date 2018-5-28 9:31
+     * @Param [param]  pageNumber 分页起始值   pageSize:每页大小
+     * @Return List<JSONObject>
+     */
+    public List<JSONObject> queryListData(Map<String, Object> param) {
+        String sql = "select #foreach($column in $columns)`$column.columnName`#if($velocityCount != $columns.size()),#end#end from " + TABLE_NAME;
+        return this.queryForListJsonObject(sql, param, true);
+    }
+
+
+    /**
+     * 方法名称：查询所有记录
+     * 概要说明：查询所有记录(可带条件)
+     * @Ather EDZ
+     * @Date 2018-5-28 9:30
+     * @Param [param] 条件
+     * @Return List<JSONObject>
+     */
+    public List<JSONObject> queryList(Map<String, Object> param) {
+        String sql = "select #foreach($column in $columns)`$column.columnName`#if($velocityCount != $columns.size()),#end#end from " + TABLE_NAME;
+        return this.queryForListJsonObject(sql, param, false);
+    }
+
+    /**
+    * 方法名称：根据条件统计数量
+    * 概要说明：根据条件统计数量
+    * @Ather yfl
+    * @Date 2018-5-28 9:26
+    * @Param param 条件
+    * @Return int
+    */
+    public int queryCount(Map<String, Object> param) {
+        String sql = "select count(1) from " + TABLE_NAME;
+        String count = queryForString(sql, param);
+        if (StringUtils.isEmpty(count)) {
+            return 0;
+        }
+        return Integer.parseInt(count);
+    }
+
+    /**
+    * 方法名称：插入实体
+    * 概要说明：插入实体
+    * @Ather yfl
+    * @Date 2018-5-28 9:26
+    * @Param ids
+    * @Return  int
+    */
+    public int insert(JSONObject ${classname}) {
+        return this.insert(TABLE_NAME, ${classname});
+    }
+
+    /**
+     * 方法名称：更新实体
+     * 概要说明：根据id更新实体
+     * @Ather yfl
+     * @Date 2018-5-28 9:26
+     * @Param ids
+     * @Return  int
+     */
+    public int updateById(JSONObject ${classname}) {
+        JSONObject where = new JSONObject();
+        where.put("fl_id",  ${classname}.get("fl_id"));
+         ${classname}.remove("fl_id");
+        return this.update(TABLE_NAME, ${classname}, where);
+    }
+
+    /**
+     * 方法名称：批量删除
+     * 概要说明：根据id批量删除
+     * @Ather yfl
+     * @Date 2018-5-28 9:26
+     * @Param ids
+     * @Return  int
+     */
+    public int batchDelByIds(String[] ids) {
+        return this.batchDel(TABLE_NAME, ids);
+    }
+
+}

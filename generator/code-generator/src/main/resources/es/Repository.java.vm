@@ -1,0 +1,15 @@
+package ${package}.repository;
+
+import org.springframework.web.bind.annotation.*;
+
+import ${package}.entity.${className};
+
+/**
+ * ${comments}
+ *
+ * @authoRetResult ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+public interface ${className}Repository extends ElasticsearchRepository<${className},String> {
+}

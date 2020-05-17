@@ -1,0 +1,80 @@
+package ${package}.service.impl;
+
+import ${package}.entity.${className};
+import ${package}.esdao.${className}Repository;
+import ${package}.esdao.es.adapter.EsSearchAdapter;
+import ${package}.model.*;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.search.sort.SortBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.SearchQuery;
+
+import javax.validation.constraints.Min;
+import java.util.List;
+
+
+@Service
+public class ${className}ServiceImpl implements ${className}Service {
+    @Autowired
+    private ${className}Repository ${classname}Repository;
+
+    @Autowired
+    EsSearchAdapter esAdapter;
+
+    @Override
+    public PageInfo<${className}> getList(String token, ${className} vo) throws Exception {
+        BoolQueryBuilder queryBuilder = esAdapter.createQueryBuilder(vo);
+        SortBuilder sortBuilder = esAdapter.createSortBuilder(vo);
+
+        @Min(value = 1, message = "请传入分页页码") int pageIndex = vo.getPageIndex();
+        @Min(value = 1, message = "请传入分页显示记录") int pageSize = vo.getPageSize();
+        pageIndex--;
+        Pageable pageable = PageRequest.of(pageIndex, pageSize);
+        NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder()
+                .withSort(sortBuilder)
+                .withQuery(queryBuilder)
+                .withPageable(pageable);
+        SearchQuery searchQuery = nativeSearchQueryBuilder.build();
+
+        Page<${className}> esPage = ${classname}Repository.search(searchQuery);
+
+        return CommonUtil.formatPage(esPage, pageIndex, pageSize);
+    }
+
+    @Override
+    public ResultInfo save(${className} vo, String token) {
+        ${className} save = ${classname}Repository.save(vo);
+
+        return ResultInfo.success();
+    }
+
+    @Override
+    public ResultInfo delete(${className} vo) {
+        ${classname}Repository.delete(vo);
+        return ResultInfo.success();
+    }
+
+    @Override
+    public ResultInfo deleteById(String id) {
+        ${classname}Repository.deleteById(id);
+        return ResultInfo.success();
+    }
+
+    @Override
+    public ResultInfo batchInsert(List<${className}> list) {
+        Iterable<${className}> ${classname}s = ${classname}Repository.saveAll(list);
+        return ResultInfo.success();
+    }
+
+    @Override
+    public ResultInfo BatchDelete(String[] ids) {
+        for (String id : ids) {
+            ${classname}Repository.deleteById(id);
+        }
+        return ResultInfo.success();
+    }
+}

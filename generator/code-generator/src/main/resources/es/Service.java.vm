@@ -1,0 +1,46 @@
+package ${package}.service;
+
+import ${package}.entity.${className};
+import ${package}.model.*;
+
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+public interface ${className}Service{
+
+    /**
+     * 根据添加获取对应列表
+     */
+    PageInfo<${className}> getList(String token, ${className} vo) throws Exception;
+
+    /**
+     * 保存与更新
+     */
+    ResultInfo save(${className} vo, String token);
+
+    /**
+     * 根据bean单个删除
+     */
+    ResultInfo delete(${className} vo);
+
+    /**
+     * 根据id单个删除
+     */
+    ResultInfo deleteById(String id);
+
+    /**
+     * 批量插入
+     */
+    ResultInfo batchInsert(List<${className}> list);
+
+    /**
+     * 批量删除
+     */
+    ResultInfo BatchDelete(String[] ids);
+
+}

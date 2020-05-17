@@ -1,0 +1,142 @@
+$(function () {
+    initDg();
+});
+
+function initDg() {
+    $('#dg').datagrid({
+        width: '100%',
+        height: 'auto',
+        url: '/${classname}/list',
+        fitColumns: true,
+        autoRowHeight: false,
+        striped: true,
+        method: "GET",
+        idField: "${pk.attrname}",
+        loadMsg: "正在加载数据...",
+        pagination: true,
+        rownumbers: true,
+        pagePosition: 'bottom',
+        pageSize: 20,
+        pageList: [20, 30, 40, 50],
+        showFooter: true,
+        fit: true,
+        queryParams: {
+            name: 'easyui',
+            subject: 'datagrid'
+        },
+        columns: [[
+            {field: '${pk.attrname}', title: 'ID', width: 100, align: 'center', checkbox: true},
+			#foreach($column in $columns)
+                {
+                    field : '${column.attrname}',
+                    title : '${column.comments}',
+                    width: 100
+                },
+			#end
+        ]],
+        toolbar: '#tb'
+    });
+}
+
+function edit() {
+    var row = $('#dg').datagrid('getSelections');
+    if (row != null && row.length == 1) {
+        var id = row[0].${pk.attrname};
+        $('#win').window({
+            width: 600,
+            height: 400,
+            modal: true,
+            collapsible: false,
+            minimizable: false,
+            maximizable: false,
+            resizable: true,
+            iconCls: "icon-add",
+            href: "/${classname}/edit/" + id,
+            title: "编辑"
+
+        });
+    }else{
+        $.messager.alert('提示', '请选中一行数据操作!', 'Warning');
+    }
+
+}
+
+function add() {
+    $('#win').window({
+        width: 600,
+        height: 400,
+        modal: true,
+        collapsible: false,
+        minimizable: false,
+        maximizable: false,
+        resizable: true,
+        iconCls: "icon-add",
+        href: "add.jsp",
+        title: "添加"
+
+    });
+}
+
+function remove() {
+    var row = $('#dg').datagrid('getSelections');
+    if (row.length === 0) {
+        $.messager.alert('提示', '请选中一行数据操作!', 'Warning');
+    } else {
+        var ids = new Array();
+        $.each(row, function (i, row) {
+            ids[i] = row['${pk.attrname}'];
+        });
+        $.messager.confirm('提示', '确认删除该条记录?', function (r) {
+            if (r) {
+                console.log(ids);
+                $.ajax({
+                    type: 'POST',
+                    url: '/${classname}/remove',
+                    data:{"ids":ids},
+                    success: function (r) {
+                        if (r.code == 0) {
+                            $.messager.alert('提示', r.msg, 'info');
+                            reLoad();
+                            clearSelections();
+                        } else {
+                            $.messager.alert('提示', r.msg, 'Warning');
+                        }
+                    }
+                });
+            }
+        });
+    }
+}
+function submitForm() {
+    $('#ff').form('submit', {
+        onSubmit:function(){
+            return $(this).form('enableValidation').form('validate');
+        },
+        success: function(data){
+            var r = JSON.parse(data);
+            if (r.code == 0){
+                $.messager.alert("提示",r.msg,"info");
+                closeWin();
+                reLoad();
+                clearSelections();
+            }else{
+                $.messager.alert("提示",r.msg,"Warning")
+            }
+        }
+    });
+}
+
+function clearForm(){
+    $('#ff').form('clear');
+}
+
+function reLoad() {
+    $('#dg').datagrid('reload');//刷新
+}
+
+function closeWin() {
+    $("#win").window("close");
+}
+function clearSelections() {
+    $("#dg").datagrid("clearSelections");
+}

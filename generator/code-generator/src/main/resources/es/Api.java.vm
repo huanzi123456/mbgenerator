@@ -1,0 +1,56 @@
+package ${package}.api;
+
+import org.springframework.web.bind.annotation.*;
+
+import ${package}.entity.${className};
+import ${package}.util.*;
+import ${package}.model.*;
+
+import java.util.*;
+
+/**
+ * ${comments}
+ *
+ * @authoResultInfo ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@RestController
+@RequestMapping("/api/${classname}" )
+public interface ${className}Api {
+
+    /**
+    * 分页获取
+    */
+    @ResponseBody
+    @GetMapping("/list" )
+    ResultInfo getList(@RequestBody ${className} vo,@RequestHeader String token);
+
+    /**
+    * 编辑
+    */
+    @ResponseBody
+    @PostMapping("/edit/id" )
+    ResultInfo edit(@RequestBody ${className} ${classname});
+
+    /**
+    * 保存修改
+    */
+    @ResponseBody
+    @PostMapping("/saveOrUpdate" )
+    ResultInfo saveOrUpdate(${className} ${classname});
+
+    /**
+    * 删除
+    */
+    @ResponseBody
+    @PostMapping("/remove/id" )
+    ResultInfo removeById(@RequestBody String id);
+
+    /**
+     * 批量删除
+     */
+    @ResponseBody
+    @PostMapping("/remove/ids" )
+    ResultInfo removeByIds(@RequestBody Collection<String> ids);
+}

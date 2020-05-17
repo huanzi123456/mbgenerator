@@ -1,0 +1,89 @@
+package ${package}.controller;
+
+import com.alibaba.fastjson.JSONObject;
+import ${package}.service.${className}Service;
+import com.common.util.Constant;
+import com.common.util.R;
+import com.common.util.Tree;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
+import java.util.Map;
+
+@Controller
+@RequestMapping("/${classname}")
+public class ${className}Controller extends BaseController {
+
+    @Autowired
+        ${className}Service ${classname}Service;
+    private static String pageTitle = "XX管理";
+    private static String pageUrl = "/${classname}";
+
+
+    @RequestMapping()
+    public String intoView(Model model) {
+        JSONObject page = new JSONObject();
+        page.put("currentTitle", pageTitle);
+        page.put("currentUrl", pageUrl);
+        page.put("innerTitle", Constant.LIST_TITLE);
+        model.addAttribute("pageInfo", page);
+        return "${classname}/${classname}";
+    }
+
+    @RequestMapping("/listData")
+    @ResponseBody
+    public JSONObject listData(@RequestParam Map<String, Object> param) {
+        List<JSONObject> data = ${classname}Service.listData(param);
+        int count = ${classname}Service.getCount(param);
+        return renderPage(count, data);
+    }
+
+    @RequestMapping("/addOrEdit")
+    public String add(String method, String fl_id, Model model) {
+        JSONObject page = new JSONObject();
+        JSONObject ${classname} = new JSONObject();
+        page.put("currentTitle", pageTitle);
+        page.put("currentUrl", pageUrl);
+        if (method.equals("add")) {
+            page.put("innerTitle", Constant.ADD_TITLE);
+        } else if (method.equals("edit")) {
+            ${classname} =${classname}Service.getById(fl_id);
+            page.put("innerTitle", Constant.EDIT_TITLE);
+        }
+        model.addAttribute("${classname}", ${classname});
+        model.addAttribute("pageInfo", page);
+        return "${classname}/addOrEdit";
+    }
+
+    @RequestMapping("/saveOrUpdate")
+    @ResponseBody
+    public R saveOrUpdate(@RequestParam Map<String, Object> ${classname}Map) {
+        Object fl_id = ${classname}Map.get("fl_id");
+        int result = 0;
+        if (fl_id == null || "".equals(fl_id)) {
+            result = ${classname}Service.save(${classname}Map);
+        } else {
+            result = ${classname}Service.update(${classname}Map);
+        }
+        if (result != 0) {
+            return R.ok("操作成功!");
+        }
+        return R.error("操作失败!");
+    }
+
+    @RequestMapping("/batchDel")
+    @ResponseBody
+    public R batchDel(@RequestParam("ids") String[] ids) {
+        int result = 0;
+        result = ${classname}Service.batchDelByIds(ids);
+        if (result != 0) {
+            return R.ok("操作成功!");
+        }
+        return R.error("操作失败!");
+    }
+}

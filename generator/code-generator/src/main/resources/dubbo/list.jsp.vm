@@ -1,0 +1,74 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+<!DOCTYPE html>
+<html>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>厦门机场印巷管理平台</title>
+    <meta name="keywords" content="厦门机场印巷管理平台">
+    <meta name="description" content="厦门机场印巷管理平台">
+    <jsp:include page="${pageContext.request.contextPath}/header.jsp"/>
+</head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+						<div class="columns pull-left">
+						<shiro:hasPermission name="${classname}:add">
+                               <button type="button" class="btn  btn-primary" onclick="add()">
+								<i class="fa fa-plus" aria-hidden="true"></i>添加
+							</button>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="${classname}:batchRemove">
+                               <button type="button" class="btn  btn-danger"
+								onclick="batchRemove()">
+								<i class="fa fa-trash" aria-hidden="true"></i>删除
+							</button>
+                        </shiro:hasPermission>
+
+
+						</div>
+						<div class="columns pull-right">
+							<button class="btn btn-success" onclick="reLoad()">查询</button>
+						</div>
+						<div class="columns pull-right col-md-2 nopadding">
+							<input id="searchName" type="text" class="form-control"
+								placeholder="">
+						</div>
+					</div>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<%--shiro控制bootstraptable行内按钮看见性 --%>
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<shiro:hasPermission name="${classname}:edit">
+		    <div>
+                <script type="text/javascript">
+                    s_edit_h = '';
+                </script>
+		    </div>
+		  </shiro:hasPermission>
+		  <shiro:hasPermission name="${classname}:edit">
+		<div shiro:hasPermission="${classname}:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		</shiro:hasPermission>
+	</div>
+	<jsp:include page="${pageContext.request.contextPath}/footer.jsp"/>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/static/js/admin/${classname}/${classname}.js"></script>
+</body>
+</html>

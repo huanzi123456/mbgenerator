@@ -1,0 +1,18 @@
+package ${package}.service;
+
+import com.baomidou.mybatisplus.service.IService;
+import ${package}.entity.${className};
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+public interface ${className}Service extends IService<${className}> {
+	
+}
